@@ -1,3 +1,4 @@
+__version__ = '0.0.1'
 import sys
 
 from .scanner import Scanner
