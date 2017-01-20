@@ -26,10 +26,24 @@ Python 3.6 for no particular reasons except f-strings are used in few
 places. Other than that, it could easily be ported to even Python 2.7
 (but I don't plan to).
 
+Install it
+----------
+
+    pip install pylox
+
+Make sure you run it with Python3, I suggest you install it inside
+virtualenv.
+
 Run it
 ------
 
+from source:
+
     python3 -m pylox [script]
+
+or if installed via pip:
+
+    pylox [script]
 
 License
 -------
