@@ -27,13 +27,37 @@ class Lox(object):
         scanner = Scanner(source)
         tokens = scanner.scan_tokens()
 
-        for token in tokens:
-            print(token)
+        # for token in tokens:
+            # print(token)
 
-    def error(self, line, message):
-        self.report(line, "", message)
+        parser = Parser(tokens)
+        statements = parser.parse_program()
+
+        if self.had_error:
+            return None
+
+        resolver = Resolver()
+        _locals = resolver.resolve(statements)
+
+        if self.had_error:
+            return None
+
+        interpreter.interpret(statements, _locals)
+
+    def error(self, line_or_token, message):
+        if isinstance(line_or_token, int):
+            self.report(line, "", message)
+        if isinstance(line_or_token, Token):
+            if line_or_token.token_type == TokenType.EOF:
+                self.report(line_or_token.line, " at end", message)
+            else:
+                self.report(line_or_token.line, " at '{}'".format(line_or_token.lexeme), message)
 
     def report(self, line, where, message):
         text = f'[line {line}] Error {where}: {message}'
         print(text, file=sys.stderr)
         self.had_error = True
+
+    def runtime_error(self, error):
+        print("{}\n[line {}]".format(error.get_message()), error.token.line)
+        self.had_runtime_error = True
