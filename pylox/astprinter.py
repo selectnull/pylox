@@ -54,7 +54,7 @@ class AstPrinter(object):
     def visit_while_stmt(self, stmt):
         return self._join("while", stmt.condition, stmd.body)
 
-    def vitit_assign_expr(self, expr):
+    def visit_assign_expr(self, expr):
         return self._join("=", expr.name.lexeme, expr.value)
 
     def visit_binary_expr(self, expr):
